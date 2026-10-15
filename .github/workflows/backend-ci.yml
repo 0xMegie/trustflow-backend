@@ -73,6 +73,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret Scanning with Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -103,6 +111,9 @@ jobs:
         working-directory: ./backend
         run: npm run check:cycles
 
+      - name: Environment variable audit
+        working-directory: ./backend
+        run: npx tsx scripts/audit-env-vars.ts
       # Verify zero-downtime migrations have proper rollback paths and don't use
       # destructive operations or table-locking DDL that would break during deployment.
       - name: Migration verification check
