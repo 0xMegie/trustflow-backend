@@ -5,6 +5,8 @@ import { HealthController } from './health.controller';
 import { MetricsHttpInterceptor } from './metrics-http.interceptor';
 import { RequestTimeoutInterceptor } from '../common/http/request-timeout.interceptor';
 import { DatabaseModule } from '../common/database/database.module';
+import { SorobanMetricsService } from './soroban-metrics.service';
+import { SorobanRpcMetricsInterceptor } from './soroban-rpc-metrics.interceptor';
 import { TracingService } from './tracing.service';
 
 @Global()
@@ -16,6 +18,8 @@ import { TracingService } from './tracing.service';
     MetricsService,
     MetricsHttpInterceptor,
     RequestTimeoutInterceptor,
+    SorobanMetricsService,
+    SorobanRpcMetricsInterceptor,
     TracingService,
   ],
   exports: [
@@ -23,6 +27,8 @@ import { TracingService } from './tracing.service';
     MetricsService,
     MetricsHttpInterceptor,
     RequestTimeoutInterceptor,
+    SorobanMetricsService,
+    SorobanRpcMetricsInterceptor,
     TracingService,
   ],
 })

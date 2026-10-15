@@ -2,6 +2,7 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AuthModule } from './auth/auth.module';
 import { EscrowModule } from './escrow/escrow.module';
+import { EscrowGraphQLModule } from './escrow/graphql/escrow-graphql.module';
 import { WebhookModule } from './webhook/webhook.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
 import { StellarModule } from './stellar/stellar.module';
@@ -44,6 +45,7 @@ import { TracingModule } from './monitoring/tracing.module';
     AuthModule,
     UserProfileModule,
     EscrowModule,
+    EscrowGraphQLModule,
     WebhookModule,
     MonitoringModule,
     StellarModule,
