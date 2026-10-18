@@ -12,7 +12,11 @@ import { Request, Response } from 'express';
 import * as Sentry from '@sentry/node';
 import { SentryService } from '../../sentry/sentry.service';
 import { CorrelationIdStore } from '../logging/correlation-id.store';
-import { isZodError, validationException, zodErrorToFieldErrors } from '../validation/validation-error';
+import {
+  isZodError,
+  validationException,
+  zodErrorToFieldErrors,
+} from '../validation/validation-error';
 
 /**
  * Extracts a usable HTTP status from an error that isn't a NestJS `HttpException` but still

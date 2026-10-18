@@ -84,7 +84,9 @@ export class NonceStoreService {
 
         const existing = await this.redis.get(key);
         if (existing) {
-          this.logger.debug(`Live challenge already pending for ${this.maskAddress(address)}, reusing it`);
+          this.logger.debug(
+            `Live challenge already pending for ${this.maskAddress(address)}, reusing it`,
+          );
           return existing;
         }
         // Expired between the SET NX and the GET — claim the slot again.

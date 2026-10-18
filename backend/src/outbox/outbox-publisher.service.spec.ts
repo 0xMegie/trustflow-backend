@@ -37,7 +37,7 @@ describe('OutboxPublisherService', () => {
     await expect(new OutboxPublisherService(null).publish(EVENT)).resolves.toBeUndefined();
   });
 
-  it('publishes to the gateway channel and appends to the capped worker queue atomically', async () => {
+  it('publishes to the gateway channel and appends to the capped queue atomically', async () => {
     const { redis, multi } = fakeRedis([
       [null, 1],
       [null, 1],

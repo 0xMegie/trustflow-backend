@@ -227,7 +227,10 @@ export class MilestoneNotificationsGateway
   }
 
   @SubscribeMessage('subscribe:gig')
-  handleSubscribeGig(@ConnectedSocket() client: Socket, @MessageBody() data: unknown): SubscriptionAck {
+  handleSubscribeGig(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: unknown,
+  ): SubscriptionAck {
     const gigId = this.parseGigId(data);
     if (!gigId) return this.errorAck('invalid gigId');
 
@@ -250,7 +253,10 @@ export class MilestoneNotificationsGateway
   }
 
   @SubscribeMessage('unsubscribe:gig')
-  handleUnsubscribeGig(@ConnectedSocket() client: Socket, @MessageBody() data: unknown): SubscriptionAck {
+  handleUnsubscribeGig(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: unknown,
+  ): SubscriptionAck {
     const gigId = this.parseGigId(data);
     if (!gigId) return this.errorAck('invalid gigId');
 

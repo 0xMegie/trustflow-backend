@@ -445,17 +445,23 @@ describe('MilestoneNotificationsGateway subscriptions (#393)', () => {
     validateEnv();
   });
 
-  it.each([undefined, null, 'gig-1', {}, { gigId: 42 }, { gigId: '' }, { gigId: 'a b' }, { gigId: 'x'.repeat(65) }])(
-    'returns an error ack and joins nothing for payload %p',
-    payload => {
-      const client = roomSocket();
-      expect(() => gateway.handleSubscribeGig(client, payload)).not.toThrow();
-      expect(gateway.handleSubscribeGig(client, payload).event).toBe('error');
-      expect(gateway.handleUnsubscribeGig(client, payload).event).toBe('error');
-      expect(client.join).not.toHaveBeenCalled();
-      expect(client.leave).not.toHaveBeenCalled();
-    },
-  );
+  it.each([
+    undefined,
+    null,
+    'gig-1',
+    {},
+    { gigId: 42 },
+    { gigId: '' },
+    { gigId: 'a b' },
+    { gigId: 'x'.repeat(65) },
+  ])('returns an error ack and joins nothing for payload %p', payload => {
+    const client = roomSocket();
+    expect(() => gateway.handleSubscribeGig(client, payload)).not.toThrow();
+    expect(gateway.handleSubscribeGig(client, payload).event).toBe('error');
+    expect(gateway.handleUnsubscribeGig(client, payload).event).toBe('error');
+    expect(client.join).not.toHaveBeenCalled();
+    expect(client.leave).not.toHaveBeenCalled();
+  });
 
   it('joins a valid gig room', () => {
     const client = roomSocket();
@@ -472,7 +478,10 @@ describe('MilestoneNotificationsGateway subscriptions (#393)', () => {
       expect(gateway.handleSubscribeGig(client, { gigId: `gig-${i}` }).event).toBe('subscribed');
     }
     const rejected = gateway.handleSubscribeGig(client, { gigId: 'gig-overflow' });
-    expect(rejected).toEqual({ event: 'error', data: { gigId: 'gig-overflow', error: 'room limit reached' } });
+    expect(rejected).toEqual({
+      event: 'error',
+      data: { gigId: 'gig-overflow', error: 'room limit reached' },
+    });
     expect(client.rooms.has('gig:gig-overflow')).toBe(false);
 
     // Re-subscribing to an already-joined room is not a new room and is allowed.
@@ -498,7 +507,15 @@ describe('MilestoneNotificationsGateway subscriptions (#393)', () => {
 
   it('counts only gig rooms on the server adapter', () => {
     gateway.server = {
-      sockets: { adapter: { rooms: new Map([['gig:1', new Set()], ['gig:2', new Set()], ['socket-id', new Set()]]) } },
+      sockets: {
+        adapter: {
+          rooms: new Map([
+            ['gig:1', new Set()],
+            ['gig:2', new Set()],
+            ['socket-id', new Set()],
+          ]),
+        },
+      },
     } as unknown as Server;
     expect(gateway.getStats().rooms).toBe(2);
   });
