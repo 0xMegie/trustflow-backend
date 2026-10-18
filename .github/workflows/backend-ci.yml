@@ -187,7 +187,8 @@ jobs:
         with:
           directory: ./backend/coverage
           flags: backend
-          fail_ci_if_error: false
+          # #397: an upload failure now fails the job so coverage status is never silently missing.
+          fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
   docker:
